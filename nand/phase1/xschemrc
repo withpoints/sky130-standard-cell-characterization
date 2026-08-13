@@ -1,2 +1,0 @@
-source /usr/local/share/pdk/sky130B/libs.tech/xschem/xschemrc
-append XSCHEM_LIBRARY_PATH :[file dirname [file normalize [info script]]]/xschem
