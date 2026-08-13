@@ -2,7 +2,7 @@
 
 A from-scratch standard-cell design and characterization flow built on the open-source **SkyWater Sky130** PDK — no proprietary tools (Cadence/Synopsys). Every stage, from schematic to a foundry-style timing library, is done with the open-source EDA stack: **Xschem, ngspice, Magic, Python**.
 
-Cells implemented: **INV** (fully characterized), **NAND2** (layout + LVS done, characterization in progress).
+Cell implemented: **INV** — fully characterized end to end.
 
 ## Flow
 
@@ -26,7 +26,7 @@ Phase 3 — Timing characterization
 ## Repo layout
 
 ```
-<cell>/
+inverter/
   phase1/   xschem/   schematic + symbol + testbenches
             scripts/  SPICE sweep decks
   phase2/   mag/      Magic layout + LVS/extraction scripts
