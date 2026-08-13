@@ -1,0 +1,4 @@
+* SPICE3 file created from /home/rohit/projects/vlsi_phase2/spice/inverter.ext - technology: sky130A
+
+X0 Out G VSS VSS sky130_fd_pr__nfet_01v8 ad=0.1848 pd=1.72 as=0.1848 ps=1.72 w=0.42 l=0.15
+X1 Out G VDD VDD sky130_fd_pr__pfet_01v8 ad=0.567 pd=3.42 as=0.5544 ps=3.4 w=1.26 l=0.15

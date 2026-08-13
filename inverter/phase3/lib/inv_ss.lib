@@ -1,0 +1,119 @@
+library(INV_ss) {
+  technology (cmos);
+  delay_model : table_lookup;
+  comment : "sky130 INV cell, SS corner, VDD=1.8V, T=27C -- generated from phase-3 characterization sweep";
+
+  time_unit : "1ps";
+  voltage_unit : "1V";
+  current_unit : "1uA";
+  pulling_resistance_unit : "1kohm";
+  leakage_power_unit : "1pW";
+  capacitive_load_unit(1, ff);
+
+  nom_process : 1.0;
+  nom_voltage : 1.8;
+  nom_temperature : 27.0;
+
+  /* matches the 50% delay / 10-90% transition points used in the
+     phase-3 ngspice characterization measurements */
+  input_threshold_pct_rise : 50.0;
+  input_threshold_pct_fall : 50.0;
+  output_threshold_pct_rise : 50.0;
+  output_threshold_pct_fall : 50.0;
+  slew_lower_threshold_pct_rise : 10.0;
+  slew_lower_threshold_pct_fall : 10.0;
+  slew_upper_threshold_pct_rise : 90.0;
+  slew_upper_threshold_pct_fall : 90.0;
+
+  lu_table_template(delay_template_5x5) {
+    variable_1 : input_net_transition;
+    variable_2 : total_output_net_capacitance;
+    index_1("20.0, 50.0, 100.0, 200.0, 500.0");
+    index_2("1.0, 5.0, 10.0, 25.0, 50.0");
+  }
+
+  power_lut_template(power_template_5x5) {
+    variable_1 : input_net_transition;
+    variable_2 : total_output_net_capacitance;
+    index_1("20.0, 50.0, 100.0, 200.0, 500.0");
+    index_2("1.0, 5.0, 10.0, 25.0, 50.0");
+  }
+
+  cell(INV) {
+    area : 5.805;
+
+    pin(A) {
+      direction : input;
+      capacitance : 0.49579;
+    }
+
+    pin(Y) {
+      direction : output;
+      function : "A'";
+      timing() {
+        related_pin : "A";
+        timing_sense : negative_unate;
+        cell_fall(delay_template_5x5) {
+          values(\
+      "30.65566, 56.98205, 89.09569, 184.79590, 344.01000",\
+      "37.62962, 64.38351, 96.74862, 192.68620, 352.00020",\
+      "50.26919, 77.07749, 109.64900, 205.86740, 365.32260",\
+      "71.14521, 103.28670, 135.87530, 232.35510, 392.01120",\
+      "112.39460, 166.88140, 212.73050, 312.62120, 472.40920");
+        }
+        fall_transition(delay_template_5x5) {
+          values(\
+      "32.48280, 80.36558, 140.22880, 319.82830, 619.16550",\
+      "32.65198, 80.36400, 140.22880, 319.82860, 619.16550",\
+      "37.43086, 81.63473, 140.25500, 319.82800, 619.16540",\
+      "53.75119, 92.45333, 146.44780, 320.10430, 619.16550",\
+      "95.29187, 144.16940, 190.07640, 343.82950, 625.53130");
+        }
+        cell_rise(delay_template_5x5) {
+          values(\
+      "27.72935, 52.92804, 83.88239, 176.34620, 330.27590",\
+      "35.57512, 60.92163, 91.99393, 184.57580, 338.55700",\
+      "49.21091, 74.48042, 105.61300, 198.31350, 352.36170",\
+      "70.18275, 102.12980, 133.14650, 225.88530, 380.00740",\
+      "110.96910, 167.08150, 212.61730, 309.20710, 463.22180");
+        }
+        rise_transition(delay_template_5x5) {
+          values(\
+      "36.90169, 87.82913, 151.49110, 342.47670, 660.78980",\
+      "37.69945, 87.82897, 151.49050, 342.47680, 660.78950",\
+      "44.49856, 90.30965, 151.83260, 342.47680, 660.78970",\
+      "64.76409, 103.63100, 160.10420, 343.25160, 660.78990",\
+      "114.18920, 162.85460, 209.29240, 371.04950, 669.17520");
+        }
+      }
+      internal_power() {
+        related_pin : "A";
+        fall_power(power_template_5x5) {
+          values(\
+      "0.66168, 0.45009, 0.38250, 0.33121, 0.31205",\
+      "0.97678, 0.64071, 0.50405, 0.38876, 0.34304",\
+      "1.24912, 0.87032, 0.67021, 0.47538, 0.39078",\
+      "1.47597, 1.14729, 0.91104, 0.62391, 0.47813",\
+      "1.62425, 1.44148, 1.25977, 0.92902, 0.69009");
+        }
+        rise_power(power_template_5x5) {
+          values(\
+      "11.44700, 24.54600, 40.78710, 89.41810, 170.41200",\
+      "11.26720, 24.43370, 40.71470, 89.38320, 170.38600",\
+      "11.13460, 24.30760, 40.62010, 89.33240, 170.34200",\
+      "11.04670, 24.17290, 40.49390, 89.24910, 170.22300",\
+      "11.05560, 24.07410, 40.34770, 89.09460, 168.07700");
+        }
+      }
+    }
+
+    leakage_power () {
+      when : "A'";
+      value : 3.22887;
+    }
+    leakage_power () {
+      when : "A";
+      value : 4.25242;
+    }
+  }
+}

@@ -1,0 +1,4 @@
+.subckt inverter Out G VDD VSS
+XM1 Out G VSS VSS sky130_fd_pr__nfet_01v8 L=0.15 W=0.42 nf=1 ad=0.1218 as=0.1218 pd=1.42 ps=1.42 mult=1 m=1
+XM2 Out G VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1.26 nf=1 ad=0.3654 as=0.3654 pd=3.1 ps=3.1 mult=1 m=1
+.ends inverter

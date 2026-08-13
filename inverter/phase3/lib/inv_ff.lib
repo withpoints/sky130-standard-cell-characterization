@@ -1,0 +1,119 @@
+library(INV_ff) {
+  technology (cmos);
+  delay_model : table_lookup;
+  comment : "sky130 INV cell, FF corner, VDD=1.8V, T=27C -- generated from phase-3 characterization sweep";
+
+  time_unit : "1ps";
+  voltage_unit : "1V";
+  current_unit : "1uA";
+  pulling_resistance_unit : "1kohm";
+  leakage_power_unit : "1pW";
+  capacitive_load_unit(1, ff);
+
+  nom_process : 1.0;
+  nom_voltage : 1.8;
+  nom_temperature : 27.0;
+
+  /* matches the 50% delay / 10-90% transition points used in the
+     phase-3 ngspice characterization measurements */
+  input_threshold_pct_rise : 50.0;
+  input_threshold_pct_fall : 50.0;
+  output_threshold_pct_rise : 50.0;
+  output_threshold_pct_fall : 50.0;
+  slew_lower_threshold_pct_rise : 10.0;
+  slew_lower_threshold_pct_fall : 10.0;
+  slew_upper_threshold_pct_rise : 90.0;
+  slew_upper_threshold_pct_fall : 90.0;
+
+  lu_table_template(delay_template_5x5) {
+    variable_1 : input_net_transition;
+    variable_2 : total_output_net_capacitance;
+    index_1("20.0, 50.0, 100.0, 200.0, 500.0");
+    index_2("1.0, 5.0, 10.0, 25.0, 50.0");
+  }
+
+  power_lut_template(power_template_5x5) {
+    variable_1 : input_net_transition;
+    variable_2 : total_output_net_capacitance;
+    index_1("20.0, 50.0, 100.0, 200.0, 500.0");
+    index_2("1.0, 5.0, 10.0, 25.0, 50.0");
+  }
+
+  cell(INV) {
+    area : 5.805;
+
+    pin(A) {
+      direction : input;
+      capacitance : 0.49579;
+    }
+
+    pin(Y) {
+      direction : output;
+      function : "A'";
+      timing() {
+        related_pin : "A";
+        timing_sense : negative_unate;
+        cell_fall(delay_template_5x5) {
+          values(\
+      "18.10465, 34.51896, 54.43388, 113.54660, 211.75240",\
+      "23.26140, 39.70026, 59.71074, 118.99210, 217.29050",\
+      "28.84220, 49.07757, 68.94816, 128.22920, 226.58970",\
+      "35.00986, 62.64469, 87.64384, 147.20110, 245.43190",\
+      "44.03458, 83.70599, 120.97020, 202.76910, 303.55370");
+        }
+        fall_transition(delay_template_5x5) {
+          values(\
+      "18.44509, 47.22990, 83.20441, 191.14180, 371.04470",\
+      "22.46724, 48.56560, 83.40785, 191.14160, 371.04420",\
+      "32.26277, 55.88736, 88.11042, 191.70180, 371.04430",\
+      "47.37516, 76.03209, 104.75200, 200.90700, 373.03680",\
+      "84.06803, 124.80750, 163.35280, 252.06070, 407.59370");
+        }
+        cell_rise(delay_template_5x5) {
+          values(\
+      "14.37799, 26.72387, 41.84630, 86.85791, 161.69290",\
+      "20.30727, 33.19151, 48.29132, 93.34987, 168.22440",\
+      "26.28767, 43.86762, 59.38233, 104.31380, 179.17450",\
+      "33.54720, 58.33274, 79.82813, 126.65910, 201.30090",\
+      "45.89072, 82.73863, 116.39080, 187.29000, 268.99130");
+        }
+        rise_transition(delay_template_5x5) {
+          values(\
+      "18.83989, 44.69809, 77.81809, 177.18250, 342.79010",\
+      "24.68776, 47.58093, 78.86866, 177.18290, 342.79090",\
+      "36.01226, 56.90554, 85.58073, 179.09180, 342.79080",\
+      "51.87677, 79.31586, 105.27220, 191.57670, 347.50920",\
+      "89.37870, 130.12840, 167.33760, 250.36460, 390.69070");
+        }
+      }
+      internal_power() {
+        related_pin : "A";
+        fall_power(power_template_5x5) {
+          values(\
+      "0.73824, 0.43789, 0.31667, 0.21666, 0.17783",\
+      "1.01755, 0.68876, 0.50757, 0.31771, 0.23437",\
+      "1.03142, 0.84619, 0.67319, 0.43642, 0.30778",\
+      "0.64196, 0.75404, 0.70535, 0.53093, 0.38572",\
+      "1.66814, 0.62311, 0.18955, 0.15766, 0.23752");
+        }
+        rise_power(power_template_5x5) {
+          values(\
+      "10.55610, 23.75630, 40.05540, 88.73990, 169.77400",\
+      "10.47700, 23.60660, 39.92710, 88.66440, 169.73100",\
+      "10.67420, 23.62630, 39.88550, 88.60830, 169.69000",\
+      "11.36500, 24.04070, 40.12900, 88.68140, 169.70800",\
+      "14.07350, 26.13830, 41.79730, 89.69740, 170.29300");
+        }
+      }
+    }
+
+    leakage_power () {
+      when : "A'";
+      value : 4.84065;
+    }
+    leakage_power () {
+      when : "A";
+      value : 6302.19600;
+    }
+  }
+}
